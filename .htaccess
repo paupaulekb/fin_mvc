@@ -1,0 +1,35 @@
+<IfModule mod_rewrite.c>
+    ##
+    ## зададим роутинг, в данном случае при переходе на сайт, мы вызываем в первую очередь common.php
+    ##
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ common.php [L]
+
+</IfModule>
+ErrorDocument 400 /404.php
+ErrorDocument 403 /404.php
+ErrorDocument 404 /404.php
+ErrorDocument 405 /404.php
+ErrorDocument 408 /404.php
+ErrorDocument 500 /404.php
+ErrorDocument 502 /404.php
+ErrorDocument 504 /404.php
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+Options +FollowSymlinks
+RewriteBase /
+
+RewriteCond %{HTTP_HOST} ^www\.test1\.ru [NC]
+RewriteRule ^(.*)$ http://test1.ru/$1 [L,R=301]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} ^(.+)/$
+RewriteRule ^(.+)/$  /$1 [R=301,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.*$ index.php [NC,L]
+
+ErrorDocument 404 /404/
+</IfModule>
